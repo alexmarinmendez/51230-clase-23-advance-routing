@@ -1,8 +1,11 @@
 import express from 'express'
+import UserRouter from './routers/userRouter.js'
 
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+const userRouter = new UserRouter()
+app.use('/api/users', userRouter.getRouter())
 
 app.param('word', (req, res, next, word) => {
     if (!word) req.word = null
@@ -26,6 +29,8 @@ app.get('/api/dictionary/add/:word([a-z%C3%A1%C3%A9%C3%B3]+)', (req, res) => {
 //     res.json({ error: 'Error'})
 // })
 
-app.get('*', (req, res) => res.json({ message: 'endpoint no encontrado' }))
+
+
+// app.get('*', (req, res) => res.json({ message: 'endpoint no encontrado' }))
 
 app.listen(8080, () => console.log('Server Up!'))
